@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { BsBell, BsBookmark, BsEnvelope, BsTwitter } from "react-icons/bs";
-import { BiHash, BiHomeCircle, BiMoney, BiUser } from "react-icons/bi";
-import { SlOptions } from "react-icons/sl";
-
+import { BiHash, BiHomeCircle, BiUser } from "react-icons/bi";
+import { toast } from "react-hot-toast";
 import FeedCard from "./components/FeedCard";
-
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import graphqlClient from "../services/api"
+import {verifyGoogleTokenQuery} from "../graphql/query/user"
 interface TwitterSidebarButton {
   title: string;
   icon: React.ReactNode;
@@ -32,20 +33,28 @@ const sidebarMenuItems: TwitterSidebarButton[] = [
     icon: <BsBookmark />,
   },
   {
-    title: "Twitter Blue",
-    icon: <BiMoney />,
-  },
-  {
     title: "Profile",
     icon: <BiUser />,
-  },
-  {
-    title: "More Options",
-    icon: <SlOptions />,
   },
 ];
 
 export default function Home() {
+  const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
+    const googleToken= cred.credential
+    if(!googleToken){
+      return toast.error('Failed Google login :/')
+    }
+
+    const {verifyGoogleToken}= await graphqlClient.request(verifyGoogleTokenQuery, {token: googleToken})
+
+    toast.success('Ssccess signin')
+    console.log(verifyGoogleToken)
+
+    if(verifyGoogleToken){
+      window.localStorage.setItem('__twitter_token', verifyGoogleToken)
+    }
+  }, [])
+
   return (
     <div>
       <div className="grid grid-cols-12 h-screen w-screen px-56">
@@ -84,7 +93,17 @@ export default function Home() {
           <FeedCard />
           <FeedCard />
         </div>
-        <div className="col-span-3"></div>
+        <div className="col-span-3">
+          <div className="p-5 bg-slate-500 rounded-lg ">
+            <h1 className="my-2 text-2xl">New Here?</h1>
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={() => {
+            console.log('Login Failed');
+          }}
+        />
+        </div>
+        </div>
       </div>
     </div>
   );
