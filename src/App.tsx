@@ -6,6 +6,8 @@ import FeedCard from "./components/FeedCard";
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import graphqlClient from "../services/api"
 import {verifyGoogleTokenQuery} from "../graphql/query/user"
+import { useQueryClient } from "@tanstack/react-query"
+import { useCurrentUser } from "../hooks/user";
 interface TwitterSidebarButton {
   title: string;
   icon: React.ReactNode;
@@ -39,8 +41,14 @@ const sidebarMenuItems: TwitterSidebarButton[] = [
 ];
 
 export default function Home() {
+  const { user }= useCurrentUser()
+  const queryClient= useQueryClient()
+
+  console.log("current user: ", user)
+
   const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
     const googleToken= cred.credential
+    console.log("google token", googleToken)
     if(!googleToken){
       return toast.error('Failed Google login :/')
     }
@@ -51,9 +59,11 @@ export default function Home() {
     console.log(verifyGoogleToken)
 
     if(verifyGoogleToken){
-      window.localStorage.setItem('__twitter_token', verifyGoogleToken)
+      window.localStorage.setItem('token', verifyGoogleToken)
     }
-  }, [])
+
+    await queryClient.invalidateQueries({ queryKey: ['current-user'] })
+  }, [queryClient]) 
 
   return (
     <div>
@@ -80,6 +90,24 @@ export default function Home() {
               </button>
             </div>
           </div>
+          {user && (
+            <div className="absolute bottom-5 flex gap-2 items-center bg-slate-800 px-3 py-2 rounded-full">
+              {user && user.profileImageUrl && (
+                <img
+                  className="rounded-full"
+                  src={user?.profileImageUrl}
+                  alt="user-image"
+                  height={50}
+                  width={50}
+                />
+              )}
+              <div>
+                <h3 className="text-xl">
+                  {user.firstName} {user.lastName}
+                </h3>
+              </div>
+            </div>
+          )}
         </div>
         <div className="col-span-5 border-r-[1px] border-l-[1px] h-screen overflow-scroll border-gray-600">
           <FeedCard />
@@ -94,15 +122,15 @@ export default function Home() {
           <FeedCard />
         </div>
         <div className="col-span-3">
-          <div className="p-5 bg-slate-500 rounded-lg ">
+          {!user && (<div className="p-5 bg-slate-500 rounded-lg ">
             <h1 className="my-2 text-2xl">New Here?</h1>
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => {
-            console.log('Login Failed');
-          }}
-        />
-        </div>
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+          </div>)}
         </div>
       </div>
     </div>
