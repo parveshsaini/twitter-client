@@ -5,10 +5,9 @@ import graphqlClient from "../services/api"
 export const useCurrentUser= ()=> {
     const query= useQuery({
         queryKey: ['current-user'],
-        queryFn: async ()=> await graphqlClient.request(getCurrentUserQuery)
+        queryFn: async ()=> await graphqlClient.request(getCurrentUserQuery),
     })
-
-    // console.log(query)
 
     return {...query, user: query.data?.getCurrentUser}
 }
+

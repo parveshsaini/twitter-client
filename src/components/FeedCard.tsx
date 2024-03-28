@@ -2,24 +2,30 @@ import React from "react";
 import { BiMessageRounded, BiUpload } from "react-icons/bi";
 import { FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
+import { Tweet } from "../../gql/graphql";
 
-const FeedCard: React.FC = () => {
+interface FeedCardProps {
+  data: Tweet
+}
+
+const FeedCard: React.FC<FeedCardProps> = (props) => {
+  const {data}= props
   return (
     <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-5 hover:bg-slate-900 transition-all cursor-pointer">
       <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-1 ">
+        {data.author?.profileImageUrl && (<div className="col-span-1 ">
           <img
-            src="https://avatars.githubusercontent.com/u/97528080?v=4"
+            src={data.author?.profileImageUrl}
             className="rounded-full"
             alt="user-image"
             height={50}
             width={50}
           />
-        </div>
+        </div>)}
         <div className="col-span-11">
-          <h5>Papi Pupu</h5>
+          <h5>{data.author?.firstName} {data.author?.lastName}</h5>
           <p>
-            TypeScript {'>>>'} JavaScript
+            {data.content}
           </p>
           <div className="flex justify-between mt-5 text-xl items-center p-2 w-[90%]">
             <div>
