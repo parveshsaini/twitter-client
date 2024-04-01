@@ -1,12 +1,13 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import React, { useCallback } from 'react'
-import { BiHash, BiHomeCircle, BiUser } from 'react-icons/bi';
-import { BsBell, BsBookmark, BsEnvelope, BsTwitter } from 'react-icons/bs';
+import { BiHomeCircle, BiUser } from 'react-icons/bi';
+import { BsEnvelope, BsTwitter } from 'react-icons/bs';
 import graphqlClient from '../../services/api';
 import { verifyGoogleTokenQuery } from '../../graphql/query/user';
 import toast from 'react-hot-toast';
 import { useCurrentUser } from '../../hooks/user';
 import { useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 
 interface TwitterLayoutProps {
@@ -16,38 +17,31 @@ interface TwitterLayoutProps {
 interface TwitterSidebarButton {
     title: string;
     icon: React.ReactNode;
+    link: string;
   }
 
-const sidebarMenuItems: TwitterSidebarButton[] = [
-    {
-      title: "Home",
-      icon: <BiHomeCircle />,
-    },
-    {
-      title: "Explore",
-      icon: <BiHash />,
-    },
-    {
-      title: "Notifications",
-      icon: <BsBell />,
-    },
-    {
-      title: "Messages",
-      icon: <BsEnvelope />,
-    },
-    {
-      title: "Bookmarks",
-      icon: <BsBookmark />,
-    },
-    {
-      title: "Profile",
-      icon: <BiUser />,
-    },
-  ];
 
 const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) => {
     const[isUserLoaded, setIsUserLoaded]= React.useState(false)
     const { user }= useCurrentUser()
+
+    const sidebarMenuItems: TwitterSidebarButton[] = [
+      {
+        title: "Home",
+        icon: <BiHomeCircle />,
+        link: "/",
+      },
+      {
+        title: "Messages",
+        icon: <BsEnvelope />,
+        link: "/",
+      },
+      {
+        title: "Profile",
+        icon: <BiUser />,
+        link: `/${user?.id}`,
+      },
+    ];
   
     const queryClient = useQueryClient();
 
@@ -59,7 +53,6 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
       }
     }, [user]);
   
-    console.log("current user: ", user)
   
     const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
       const googleToken= cred.credential
@@ -94,8 +87,13 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
                   className="flex justify-start items-center gap-4 hover:bg-gray-800 rounded-full px-3 py-3 w-fit cursor-pointer mt-2"
                   key={item.title}
                 >
+                  <Link to={item.link}>
                   <span className=" text-3xl">{item.icon}</span>
+                  </Link>
+
+                  <Link to={item.link}>
                   <span className='hidden sm:inline'>{item.title}</span>
+                  </Link>
                 </li>
               ))}
             </ul>

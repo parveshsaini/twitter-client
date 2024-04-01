@@ -17,3 +17,9 @@ export const getAllTweetsQuery= graphql(`#graphql
         }
     }
 `) 
+
+export const getSignedUrlQuery= graphql(`#graphql
+    query GetSignedUrl($imageName: String!, $imageType: String!) {
+        getSignedUrl(imageName: $imageName, imageType: $imageType)
+    }
+`)
