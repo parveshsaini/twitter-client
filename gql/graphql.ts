@@ -36,6 +36,7 @@ export type Query = {
   getAllTweets?: Maybe<Array<Maybe<Tweet>>>;
   getCurrentUser?: Maybe<User>;
   getSignedUrl?: Maybe<Scalars['String']['output']>;
+  getTweetsById?: Maybe<Array<Maybe<Tweet>>>;
   getUserById?: Maybe<User>;
   verifyGoogleToken?: Maybe<Scalars['String']['output']>;
 };
@@ -44,6 +45,11 @@ export type Query = {
 export type QueryGetSignedUrlArgs = {
   imageName?: InputMaybe<Scalars['String']['input']>;
   imageType?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetTweetsByIdArgs = {
+  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 

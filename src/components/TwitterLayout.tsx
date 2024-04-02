@@ -22,8 +22,15 @@ interface TwitterSidebarButton {
 
 
 const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) => {
-    const[isUserLoaded, setIsUserLoaded]= React.useState(false)
-    const { user }= useCurrentUser()
+    const { user= undefined } = useCurrentUser()
+
+    const [userLoaded, setUserLoaded]= React.useState(false)
+
+    React.useEffect(()=> {
+      if(user){
+        setUserLoaded(true)
+      }
+    }, [user])
 
     const sidebarMenuItems: TwitterSidebarButton[] = [
       {
@@ -44,14 +51,6 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
     ];
   
     const queryClient = useQueryClient();
-
-    React.useEffect(() => {
-      if (user!== null && user !== undefined) {
-        setIsUserLoaded(true);
-        //refresh the window
-        // window.location.reload()
-      }
-    }, [user]);
   
   
     const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
@@ -63,7 +62,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
   
       const {verifyGoogleToken}= await graphqlClient.request(verifyGoogleTokenQuery, {token: googleToken})
   
-      toast.success('Ssccess signin')
+      toast.success('Success signin')
       console.log(verifyGoogleToken)
   
       if(verifyGoogleToken){
@@ -71,6 +70,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
       }
   
       await queryClient.invalidateQueries({ queryKey: ['current-user'] })
+      setUserLoaded(true)
     }, [queryClient]) 
 
   return (
@@ -132,8 +132,8 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
           {props.children}
      
         </div>
-        <div className="hidden p-5 sm:col-span-3">
-          {!isUserLoaded && (<div className="p-5 bg-slate-500 rounded-lg ">
+        {!userLoaded && <div className=" p-5 sm:col-span-3">
+          <div className="p-5 bg-slate-500 rounded-lg ">
             <h1 className="my-2 text-2xl">New Here?</h1>
             <GoogleLogin
               onSuccess={handleGoogleLogin}
@@ -141,8 +141,8 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
                 console.log('Login Failed');
               }}
             />
-          </div>)}
-        </div>
+          </div>
+        </div>}
       </div>
   )
 }
