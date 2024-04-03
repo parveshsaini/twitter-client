@@ -83,18 +83,17 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
           <div className="mt-1 text-xl pr-4">
             <ul>
               {sidebarMenuItems.map((item) => (
+                <Link to={item.link}>
                 <li
                   className="flex justify-start items-center gap-4 hover:bg-gray-800 rounded-full px-3 py-3 w-fit cursor-pointer mt-2"
                   key={item.title}
                 >
-                  <Link to={item.link}>
+                  
                   <span className=" text-3xl">{item.icon}</span>
-                  </Link>
-
-                  <Link to={item.link}>
                   <span className='hidden sm:inline'>{item.title}</span>
-                  </Link>
+                 
                 </li>
+                </Link>
               ))}
             </ul>
             <div className="mt-5 px-3">
@@ -132,7 +131,8 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
           {props.children}
      
         </div>
-        {!userLoaded && <div className=" p-5 sm:col-span-3">
+        <div className="col-span-0 sm:col-span-3 p-5">
+        {!userLoaded ? <div className=" p-5 sm:col-span-3">
           <div className="p-5 bg-slate-500 rounded-lg ">
             <h1 className="my-2 text-2xl">New Here?</h1>
             <GoogleLogin
@@ -142,7 +142,36 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
               }}
             />
           </div>
-        </div>}
+        </div> :
+        
+        <div className="px-4 py-3 bg-slate-800 rounded-lg">
+              <h1 className="my-2 text-2xl mb-5">Users you may know</h1>
+              {user?.recommendedUsers?.map((el) => (
+                <div className="flex items-center gap-3 mt-2" key={el?.id}>
+                  {el?.profileImageUrl && (
+                    <img
+                      src={el?.profileImageUrl}
+                      alt="user-image"
+                      className="rounded-full"
+                      width={60}
+                      height={60}
+                    />
+                  )}
+                  <div>
+                    <div className="text-lg">
+                      {el?.firstName} {el?.lastName}
+                    </div>
+                    <Link
+                      to={`/${el?.id}`}
+                      className="bg-white text-black text-sm px-5 py-1 w-full rounded-lg"
+                    >
+                      View
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>}
+            </div>
       </div>
   )
 }

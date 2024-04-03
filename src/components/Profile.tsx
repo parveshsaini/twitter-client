@@ -1,17 +1,48 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import TwitterLayout from './TwitterLayout'
 import { BsArrowLeftShort } from 'react-icons/bs';
-import { useGetUserById } from '../../hooks/user';
+import { useCurrentUser, useGetUserById } from '../../hooks/user';
 import { useParams } from 'react-router-dom';
 import FeedCard from './FeedCard';
 import { Tweet } from '../../gql/graphql';
+import graphqlClient from '../../services/api';
+import {FollowUserMutations, UnfollowUserMutations} from '../../graphql/mutation/user'
+import { useQueryClient } from '@tanstack/react-query';
 
 const Profile = () => {
+  const queryClient= useQueryClient()
+
     const {id} = useParams() 
+
+    const { user } =useCurrentUser()
 
     const {userInfo}= useGetUserById(id as string)
 
     const [loading, setLoading] = useState(true);
+
+    const iAmFollowing= useMemo(()=> {
+      if(!userInfo || !user){
+        return false
+      }
+
+      return userInfo?.followers?.find((follower)=> follower?.id=== user?.id)
+    }, [userInfo, user])
+
+    const handleFollowUser= useCallback(async ()=> {
+      if(!userInfo || !userInfo.id) return
+
+      await graphqlClient.request(FollowUserMutations, {to: userInfo!.id})
+
+      queryClient.invalidateQueries({ queryKey: ['user', userInfo.id]})
+    }, [userInfo, queryClient])
+
+    const handleUnfollowUser= useCallback(async ()=> {
+      if(!userInfo || !userInfo.id) return
+
+      await graphqlClient.request(UnfollowUserMutations, {to: userInfo!.id})
+
+      queryClient.invalidateQueries({ queryKey: ['user', userInfo.id] })
+    }, [userInfo, queryClient])
 
     useEffect(() => {
         if (userInfo) {
@@ -53,7 +84,29 @@ const Profile = () => {
                     height={100}
                   />
                 )}
+                <div className='flex justify-between'>
                 <h1 className="text-2xl font-bold mt-5">{userInfo.firstName} {userInfo.lastName}</h1>
+
+                {
+                user?.id !== userInfo.id && 
+                (!iAmFollowing? (<button 
+                  className=" bg-white text-black px-3 py-1 rounded-full text-sm mt-5 font-semibold"
+                  onClick={handleFollowUser}
+                  >
+                  Follow
+                </button>) :
+                (<button 
+                  className=" bg-transparent text-white border border-white px-3 py-1 rounded-full text-sm mt-5 font-semibold"
+                  onClick={handleUnfollowUser}
+                  >
+                  Unfollow
+                </button>))
+                }
+                </div>
+                <div className='flex gap-4 mt-2 text-sm text-gray-400'>
+                  <span>{userInfo.followers?.length} Followers</span>
+                  <span>{userInfo.following?.length} Following</span>
+                </div>
               </div>
               <div>
                 {userInfo?.tweets?.map((tweet) => (
