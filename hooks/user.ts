@@ -7,7 +7,7 @@ export const useCurrentUser = () => {
     const query = useQuery({
       queryKey: ['current-user'],
       queryFn: async () => {
-        const gqlClient = new GraphQLClient('http://localhost:3000/graphql', {
+        const gqlClient = new GraphQLClient(import.meta.env.VITE_API_URL as string, {
           headers: {
             Authorization: `Bearer ${window.localStorage.getItem('token')}`
           }

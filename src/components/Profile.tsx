@@ -3,11 +3,10 @@ import TwitterLayout from './TwitterLayout'
 import { BsArrowLeftShort } from 'react-icons/bs';
 import { useCurrentUser, useGetUserById } from '../../hooks/user';
 import { useParams } from 'react-router-dom';
-import FeedCard from './FeedCard';
-import { Tweet } from '../../gql/graphql';
 import graphqlClient from '../../services/api';
 import {FollowUserMutations, UnfollowUserMutations} from '../../graphql/mutation/user'
 import { useQueryClient } from '@tanstack/react-query';
+
 
 const Profile = () => {
   const queryClient= useQueryClient()
@@ -43,6 +42,7 @@ const Profile = () => {
 
       queryClient.invalidateQueries({ queryKey: ['user', userInfo.id] })
     }, [userInfo, queryClient])
+
 
     useEffect(() => {
         if (userInfo) {
@@ -104,15 +104,12 @@ const Profile = () => {
                 }
                 </div>
                 <div className='flex gap-4 mt-2 text-sm text-gray-400'>
-                  <span>{userInfo.followers?.length} Followers</span>
-                  <span>{userInfo.following?.length} Following</span>
+                  <button className='cursor-pointer' ><span>{userInfo.followers?.length} Followers</span></button>
+                  <h1> | </h1>
+                  <button className='cursor-pointer' ><span>{userInfo.following?.length} Following</span></button>
                 </div>
               </div>
-              <div>
-                {userInfo?.tweets?.map((tweet) => (
-                  <FeedCard data={tweet as Tweet} key={tweet?.id} />
-                ))}
-              </div>
+              
             </div>)
             
             : <h1>User not found</h1>

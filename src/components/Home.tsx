@@ -37,7 +37,7 @@ export default function Home() {
 
       if(getSignedUrl){
         toast.loading("Uploading...", {id: "2"})
-        axios.put(getSignedUrl, file, {
+        await axios.put(getSignedUrl, file, {
           headers: {
             "Content-Type": file.type
           }
@@ -45,7 +45,8 @@ export default function Home() {
         toast.success("Uploaded Succesfully", {id: "2"})
 
         const url= new URL(getSignedUrl)
-        const filePath= `${url.origin}/${url.pathname}`
+        const filePath= `${url.origin}${url.pathname}`
+        console.log(filePath)
         setImageUrl(filePath)
       }
     }
@@ -71,7 +72,7 @@ export default function Home() {
     setImageUrl("")
   }, [content, mutate, imageUrl]);
 
-  console.log(user)
+  // console.log(user)
 
 
 
@@ -94,13 +95,14 @@ export default function Home() {
                   )}
                 </div>
                 <div className="col-span-11">
-                  <textarea
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    className="w-full bg-transparent text-xl px-3 border-b border-slate-700"
-                    placeholder="What's happening?"
-                    rows={3}
-                  ></textarea>
+                <textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  className="w-full bg-transparent text-xl px-3 border-b border-slate-700 focus:outline-none"
+                  placeholder="What's happening?"
+                  rows={3}
+              ></textarea>
+
 
                   {imageUrl && (
                     <img
