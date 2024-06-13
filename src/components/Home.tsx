@@ -37,12 +37,26 @@ export default function Home() {
 
       if(getSignedUrl){
         toast.loading("Uploading...", {id: "2"})
+        console.log(getSignedUrl)
         await axios.put(getSignedUrl, file, {
           headers: {
             "Content-Type": file.type
           }
         })
         toast.success("Uploaded Succesfully", {id: "2"})
+
+        // toast.promise(
+        //   axios.put(getSignedUrl, file, {
+        //       headers: {
+        //         "Content-Type": file.type
+        //       }
+        //     }),
+        //     {
+        //       loading: 'Uploading...',
+        //       success: <b>Success!</b>,
+        //       error: <b>Somethig went wrong</b>,
+        //     }
+        // )
 
         const url= new URL(getSignedUrl)
         const filePath= `${url.origin}${url.pathname}`
