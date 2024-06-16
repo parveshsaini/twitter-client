@@ -42,7 +42,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
       {
         title: "Messages",
         icon: <BsEnvelope />,
-        link: "/",
+        link: "/chat",
       },
       {
         title: "Profile",
