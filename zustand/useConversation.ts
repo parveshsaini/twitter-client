@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export type ConversationType = { __typename?: 'User', id: string, firstName: string, lastName?: string | null, profileImageUrl?: string | null } | null
 
-export type MessageType = { __typename?: 'Message',id: string, body: string, createdAt?: string | null, sender?: { __typename?: 'User', id: string, firstName: string, lastName?: string | null } | null } | null
+export type MessageType = { __typename?: 'Message',id: string, shouldShake?: boolean, body: string, createdAt?: string | null, sender?: { __typename?: 'User', id: string, firstName: string, lastName?: string | null } | null } | null
 
 interface ConversationState {
 	selectedConversation: ConversationType | null;

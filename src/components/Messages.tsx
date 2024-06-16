@@ -3,9 +3,11 @@ import { useGetMessages } from "../../hooks/chat";
 // import useListenMessages from "../../hooks/useListenMessages";
 // import MessageSkeleton from "../skeletons/MessageSkeleton";
 import Message from "./Message"; 
+import {useListenMessages} from '../../hooks/socket'
 
 const Messages = () => {
 	const { messages, isLoading } = useGetMessages();
+	useListenMessages()
   
 	if (isLoading) return <span className='loading loading-spinner mx-auto'>Loading...</span>;
   
