@@ -1,5 +1,4 @@
 import { useCurrentUser } from '../../hooks/user';
-import { extractTime } from '../../services/time'
 import  { MessageType, useConversation} from "../../zustand/useConversation";
 
 const Message = ({ message }: { message: MessageType }) => {
@@ -13,6 +12,13 @@ const Message = ({ message }: { message: MessageType }) => {
 	const bubbleBg = fromMe ? "bg-blue-500" : "";
 	const shakeClass = message?.shouldShake ? "shake" : "";
 
+	// const formatTimestamp = (timestamp: string) => {
+	// 	// console.log('timestamp', timestamp)
+	// 	const date = new Date(timestamp);
+	// 	return date.toLocaleString(); // You can customize this format further if needed
+	// };
+	
+
 	return (
 		<div className={`chat ${chatClass}`}>
 			<div className='hidden md:block chat-image avatar'>
@@ -22,8 +28,8 @@ const Message = ({ message }: { message: MessageType }) => {
 			</div>
 			<p className={` text-white ${shakeClass} ${bubbleBg}  text-sm md:text-md`}>{message?.body}</p>
 			<span className='chat-footer opacity-50 text-xs flex gap-1 items-center text-white'>
-				{ message?.createdAt && extractTime(message.createdAt)}
-			</span>
+            {message?.createdAt && message.createdAt}
+        </span>
 		</div>
 	);
 };

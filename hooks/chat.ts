@@ -5,7 +5,7 @@ import graphqlClient from "../services/api"
 import { getMessagesQuery, getUsersForSidebarQuery } from "../graphql/query/chat";
 import { ConversationType, MessageType, useConversation } from "../zustand/useConversation";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SendMessageInput } from "../gql/graphql";
 import { sendMessageMutation } from "../graphql/mutation/chat"
 
@@ -60,4 +60,20 @@ export const useSendMessage = ()=> {
     })
 
     return mutation
+}
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useChatScroll(dep: any) {
+	const ref = useRef<HTMLElement>();
+
+	useEffect(() => {
+		setTimeout(() => {
+			if (ref.current) {
+				ref.current.scrollTop = ref.current.scrollHeight;
+			}
+		}, 100);
+	}, [dep]);
+
+	return ref;
 }

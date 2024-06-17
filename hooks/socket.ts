@@ -6,12 +6,15 @@ import { useConversation } from "../zustand/useConversation";
 
 // import notificationSound from "../assets/sounds/notification.mp3";
 
+
+
 export const useListenMessages = () => {
 	const { socket } = useSocketContext();
 	const { messages, setMessages } = useConversation();
 
 	useEffect(() => {
 		socket?.on("newMessage", (newMessage) => {
+			newMessage.createdAt = new Date().toISOString;
 			setMessages([...messages, newMessage]);
 		});
 
