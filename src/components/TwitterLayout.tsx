@@ -9,6 +9,7 @@ import { useCurrentUser } from '../../hooks/user';
 import { useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import RecommendedUsers from './RecommendedUsers';
+import { IoExitSharp } from 'react-icons/io5';
 
 
 interface TwitterLayoutProps {
@@ -74,12 +75,17 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
       setUserLoaded(true)
     }, [queryClient]) 
 
+    const handleLogout= () => {
+      window.localStorage.removeItem('token')
+      window.location.reload()
+    }
+
   return (
-    <div className="grid grid-cols-12 h-screen w-screen sm:px-56">
+    <div className="grid grid-cols-12 h-screen w-screen sm:px-24">
         <div className="col-span-2 sm:col-span-3 pt-1 flex sm:justify-end pr-4 relative">
           <div>
           <div className="text-2xl flex items-center gap-2 h-fit w-fit rounded-full p-4 cursor-pointer transition-all">
-            Twitter <span><BsTwitter /></span>
+          <BsTwitter /><span className='hidden md:block'>TwitterX</span>
           </div>
           <div className="mt-1 text-xl pr-4">
             <ul>
@@ -97,15 +103,12 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
                 </Link>
               ))}
             </ul>
-            <div className="mt-5 px-3">
-              <button className="hidden sm:block bg-[#1d9bf0] font-semibold text-lg py-2 px-4 rounded-full w-full">
-                Tweet
+            {userLoaded && <div className="mt-5 px-3 ">
+              <button onClick={handleLogout} className=" sm:block bg-[#1d9bf0] font-semibold flex items-center text-lg py-2 px-4 rounded-full w-full">
+                <span className='hidden lg:block'>Logout</span>
+                <span className='md:hidden'><IoExitSharp/></span>
               </button>
-              <button className="block sm:hidden bg-[#1d9bf0] font-semibold text-lg py-2 px-4 rounded-full w-full">
-                <BsTwitter />
-
-              </button>
-            </div>
+            </div>}
           </div>
           </div>
           {user && (
@@ -133,7 +136,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
      
         </div>
         <div className="col-span-0 sm:col-span-3 p-5">
-        {!userLoaded ? <div className=" p-5 sm:col-span-3">
+        {!userLoaded ? <div className=" p-15 sm:col-span-3 flex flex-col items-center justify-center">
           <div className="p-5 bg-slate-500 rounded-lg ">
             <h1 className="my-2 text-2xl">New Here?</h1>
             <GoogleLogin

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BiImageAlt} from "react-icons/bi";
 import FeedCard from "./FeedCard";
 
@@ -11,6 +11,9 @@ import graphqlClient from "../../services/api";
 import { getSignedUrlQuery } from "../../graphql/query/tweet";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { useQueryClient } from "@tanstack/react-query";
+import { verifyGoogleTokenQuery } from "../../graphql/query/user";
 
 export default function Home() {
   const { user }= useCurrentUser()
@@ -88,13 +91,43 @@ export default function Home() {
 
   // console.log(user)
 
+  const [userLoaded, setUserLoaded]= useState(false)
+
+  useEffect(()=> {
+    if(user){
+      setUserLoaded(true)
+    }
+  }, [user])
+  const queryClient = useQueryClient();
+
+
+  const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
+    const googleToken= cred.credential
+    console.log("google token", googleToken)
+    if(!googleToken){
+      return toast.error('Failed Google login :/')
+    }
+
+    const {verifyGoogleToken}= await graphqlClient.request(verifyGoogleTokenQuery, {token: googleToken})
+
+    toast.success('Success signin')
+    console.log(verifyGoogleToken)
+
+    if(verifyGoogleToken){
+      window.localStorage.setItem('token', verifyGoogleToken)
+    }
+
+    await queryClient.invalidateQueries({ queryKey: ['current-user'] })
+    setUserLoaded(true)
+  }, [queryClient])
 
 
   return (
  
   
         <TwitterLayout>
-        {user && (<div>
+        
+        {userLoaded && (<div>
             <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-5 hover:bg-slate-900 transition-all cursor-pointer">
               <div className="grid grid-cols-12 gap-3">
                 <div className="col-span-1">
@@ -144,6 +177,20 @@ export default function Home() {
               </div>
             </div>
           </div>)}
+
+          {!userLoaded && (
+            <div className="md:hidden p-5 sm:col-span-3">
+            <div className="p-5 bg-slate-500 rounded-lg ">
+              <h1 className="my-2 text-2xl">New Here?</h1>
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+            </div>
+          </div>
+          ) }
           
           {
             tweets?.map((tweet)=> tweet ? <FeedCard key={tweet?.id} data={tweet as Tweet} />: null)
