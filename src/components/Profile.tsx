@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 import graphqlClient from '../../services/api';
 import {FollowUserMutations, UnfollowUserMutations} from '../../graphql/mutation/user'
 import { useQueryClient } from '@tanstack/react-query';
+import FeedCard from './FeedCard';
+import { Tweet } from '../../gql/graphql';
 
 
 const Profile = () => {
@@ -18,6 +20,8 @@ const Profile = () => {
     const {userInfo}= useGetUserById(id as string)
 
     const [loading, setLoading] = useState(true);
+
+    const [author, setAuthor]= useState<boolean>(false)
 
     const iAmFollowing= useMemo(()=> {
       if(!userInfo || !user){
@@ -47,13 +51,16 @@ const Profile = () => {
     useEffect(() => {
         if (userInfo) {
             setLoading(false);
+            if(userInfo.id===user?.id){
+              setAuthor(true)
+            }
         } else {
             const timer = setTimeout(() => {
                 setLoading(false);
             }, 1000);
             return () => clearTimeout(timer);
         }
-    }, [userInfo]);
+    }, [user?.id, userInfo]);
 
     console.log(userInfo)
 
@@ -108,6 +115,11 @@ const Profile = () => {
                   <h1> | </h1>
                   <button className='cursor-pointer' ><span>{userInfo.following?.length} Following</span></button>
                 </div>
+              </div>
+              <div>
+                {userInfo?.tweets?.map((tweet) => (
+                  <FeedCard data={tweet as Tweet} author={author} key={tweet?.id} />
+                ))}
               </div>
               
             </div>)

@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "#graphql\n    mutation SendMessage($payload: SendMessageInput!) {\n        sendMessage(payload: $payload) {\n            body\n            id\n            createdAt\n        }\n    }\n": types.SendMessageDocument,
     "#graphql\n    mutation CreateTweet($payload: CreateTweetInput!) {\n        createTweet(payload: $payload){\n            id\n        }\n    }\n": types.CreateTweetDocument,
+    "#graphql\n    mutation DeleteTweet($id: String!) {\n        deleteTweet(id: $id)\n    }\n": types.DeleteTweetDocument,
     "#graphql\n    mutation FollowUser($to: String!){\n        followUser(to: $to)\n    }\n": types.FollowUserDocument,
     "#graphql\n    mutation UnfollowUser($to: String!){\n        unfollowUser(to: $to)\n    }\n": types.UnfollowUserDocument,
     "#graphql\n    query GetUsersForSidebar {\n        getUsersForSidebar {\n            id\n            firstName\n            lastName\n            profileImageUrl\n        }\n    }\n": types.GetUsersForSidebarDocument,
@@ -48,6 +49,10 @@ export function graphql(source: "#graphql\n    mutation SendMessage($payload: Se
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "#graphql\n    mutation CreateTweet($payload: CreateTweetInput!) {\n        createTweet(payload: $payload){\n            id\n        }\n    }\n"): (typeof documents)["#graphql\n    mutation CreateTweet($payload: CreateTweetInput!) {\n        createTweet(payload: $payload){\n            id\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "#graphql\n    mutation DeleteTweet($id: String!) {\n        deleteTweet(id: $id)\n    }\n"): (typeof documents)["#graphql\n    mutation DeleteTweet($id: String!) {\n        deleteTweet(id: $id)\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -9,7 +9,7 @@ const ChatSidebar = () => {
 	if(isLoading) return <span className='loading loading-spinner mx-auto' >Loading...</span>
 
 	return (
-        <div className='py-2 flex flex-col overflow-auto'>
+        <div className='py-2 w-[30%] flex flex-col gap-y-1 overflow-auto bg-slate-900  mx-auto'>
             {conversations && conversations.map((conversation) => {
                 return (user && user?.id!=conversation?.id) ? <Conversation key={conversation?.id} conversation={conversation} /> : null;
             })}
