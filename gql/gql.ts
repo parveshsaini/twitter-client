@@ -13,9 +13,13 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "#graphql\n    mutation SendMessage($payload: SendMessageInput!) {\n        sendMessage(payload: $payload) {\n            body\n            id\n            createdAt\n        }\n    }\n": types.SendMessageDocument,
     "#graphql\n    mutation CreateTweet($payload: CreateTweetInput!) {\n        createTweet(payload: $payload){\n            id\n        }\n    }\n": types.CreateTweetDocument,
+    "#graphql\n    mutation DeleteTweet($id: String!) {\n        deleteTweet(id: $id)\n    }\n": types.DeleteTweetDocument,
     "#graphql\n    mutation FollowUser($to: String!){\n        followUser(to: $to)\n    }\n": types.FollowUserDocument,
     "#graphql\n    mutation UnfollowUser($to: String!){\n        unfollowUser(to: $to)\n    }\n": types.UnfollowUserDocument,
+    "#graphql\n    query GetUsersForSidebar {\n        getUsersForSidebar {\n            id\n            firstName\n            lastName\n            profileImageUrl\n        }\n    }\n": types.GetUsersForSidebarDocument,
+    "#graphql\n    query GetMessages($chattingUserId: ID!) {\n        getMessages(chattingUserId: $chattingUserId) {\n            id\n            body\n            createdAt\n            sender {\n                id\n                firstName\n                lastName\n            }\n        }\n    }\n": types.GetMessagesDocument,
     "#graphql\n\n    query GetAllTweets {\n        getAllTweets{\n            id\n            content\n            imageUrl\n            author {\n                id\n                firstName\n                lastName\n                profileImageUrl\n            }\n        }\n    }\n": types.GetAllTweetsDocument,
     "#graphql\n    query GetSignedUrl($imageName: String!, $imageType: String!) {\n        getSignedUrl(imageName: $imageName, imageType: $imageType)\n    }\n": types.GetSignedUrlDocument,
     "#graphql\n\n    query VerifyUserGoogleToken($token: String!) {\n        verifyGoogleToken(token: $token)\n    }\n": types.VerifyUserGoogleTokenDocument,
@@ -40,7 +44,15 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "#graphql\n    mutation SendMessage($payload: SendMessageInput!) {\n        sendMessage(payload: $payload) {\n            body\n            id\n            createdAt\n        }\n    }\n"): (typeof documents)["#graphql\n    mutation SendMessage($payload: SendMessageInput!) {\n        sendMessage(payload: $payload) {\n            body\n            id\n            createdAt\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "#graphql\n    mutation CreateTweet($payload: CreateTweetInput!) {\n        createTweet(payload: $payload){\n            id\n        }\n    }\n"): (typeof documents)["#graphql\n    mutation CreateTweet($payload: CreateTweetInput!) {\n        createTweet(payload: $payload){\n            id\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "#graphql\n    mutation DeleteTweet($id: String!) {\n        deleteTweet(id: $id)\n    }\n"): (typeof documents)["#graphql\n    mutation DeleteTweet($id: String!) {\n        deleteTweet(id: $id)\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -49,6 +61,14 @@ export function graphql(source: "#graphql\n    mutation FollowUser($to: String!)
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "#graphql\n    mutation UnfollowUser($to: String!){\n        unfollowUser(to: $to)\n    }\n"): (typeof documents)["#graphql\n    mutation UnfollowUser($to: String!){\n        unfollowUser(to: $to)\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "#graphql\n    query GetUsersForSidebar {\n        getUsersForSidebar {\n            id\n            firstName\n            lastName\n            profileImageUrl\n        }\n    }\n"): (typeof documents)["#graphql\n    query GetUsersForSidebar {\n        getUsersForSidebar {\n            id\n            firstName\n            lastName\n            profileImageUrl\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "#graphql\n    query GetMessages($chattingUserId: ID!) {\n        getMessages(chattingUserId: $chattingUserId) {\n            id\n            body\n            createdAt\n            sender {\n                id\n                firstName\n                lastName\n            }\n        }\n    }\n"): (typeof documents)["#graphql\n    query GetMessages($chattingUserId: ID!) {\n        getMessages(chattingUserId: $chattingUserId) {\n            id\n            body\n            createdAt\n            sender {\n                id\n                firstName\n                lastName\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

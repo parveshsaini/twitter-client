@@ -42,7 +42,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
       {
         title: "Messages",
         icon: <BsEnvelope />,
-        link: "/",
+        link: "/chat",
       },
       {
         title: "Profile",
@@ -78,8 +78,8 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
     <div className="grid grid-cols-12 h-screen w-screen sm:px-56">
         <div className="col-span-2 sm:col-span-3 pt-1 flex sm:justify-end pr-4 relative">
           <div>
-          <div className="text-2xl h-fit w-fit hover:bg-gray-800 rounded-full p-4 cursor-pointer transition-all">
-            <BsTwitter />
+          <div className="text-2xl flex items-center gap-2 h-fit w-fit rounded-full p-4 cursor-pointer transition-all">
+            Twitter <span><BsTwitter /></span>
           </div>
           <div className="mt-1 text-xl pr-4">
             <ul>
