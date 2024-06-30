@@ -1,7 +1,7 @@
 import { BiTrash } from "react-icons/bi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Tweet } from "../../gql/graphql";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDeleteTweet } from "../../hooks/tweet";
 
 
@@ -13,27 +13,31 @@ interface FeedCardProps {
 const FeedCard = (props: FeedCardProps) => {
   const {data}= props
   const { mutate } = useDeleteTweet();
+  
+
+  const navigate = useNavigate()
 
   const handleDelete = () => {
     mutate(data.id);
+    navigate(0)
   }
 
   return (
     <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-5 hover:bg-slate-900 transition-all ">
       <div className="grid grid-cols-12 gap-3">
-        {data.author?.profileImageUrl && (<div className="col-span-1 ">
+        {data.author?.profileImageUrl && (<div className="col-span-2 ">
         <Link to={`/${data.author.id}`}>
         
           <img
             src={data.author?.profileImageUrl}
-            className="rounded-full cursor-pointer"
+            className="rounded-full cursor-pointer w-"
             alt="user-image"
             height={50}
             width={50}
           />
           </Link>
         </div>)}
-        <div className="col-span-11">
+        <div className="col-span-10">
         <Link to={`/${data.author!.id}`}>
           <h5 className="cursor-pointer">{data.author?.firstName} {data.author?.lastName}</h5>
         </Link>

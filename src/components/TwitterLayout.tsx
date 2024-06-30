@@ -136,7 +136,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
      
         </div>
         <div className="col-span-0 sm:col-span-3 p-5">
-        {!userLoaded ? <div className=" p-15 sm:col-span-3 flex flex-col items-center justify-center">
+        {!userLoaded ? <div className=" p-15 md:col-span-3 hidden  md:flex flex-col items-center justify-center">
           <div className="p-5 bg-slate-500 rounded-lg ">
             <h1 className="my-2 text-2xl">New Here?</h1>
             <GoogleLogin

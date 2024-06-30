@@ -130,7 +130,7 @@ export default function Home() {
         {userLoaded && (<div>
             <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-5 hover:bg-slate-900 transition-all cursor-pointer">
               <div className="grid grid-cols-12 gap-3">
-                <div className="col-span-1">
+                <div className="col-span-2">
                   {user?.profileImageUrl && (
                     <img
                       className="rounded-full"
@@ -141,7 +141,7 @@ export default function Home() {
                     />
                   )}
                 </div>
-                <div className="col-span-11">
+                <div className="col-span-10">
                 <textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
