@@ -1,4 +1,3 @@
-import React from "react";
 import { BiTrash } from "react-icons/bi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Tweet } from "../../gql/graphql";

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {useSocketContext} from "../src/context/socket"
+import { useSocketContext } from "../src/context/socket";
 import { useConversation } from "../zustand/useConversation";
 
 // import useConversation from "../zustand/useConversation";

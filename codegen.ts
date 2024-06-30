@@ -3,8 +3,8 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  // schema: "https://twittercloneparvesh.twilightparadox.com/graphql",
-  schema: "http://localhost:3000/graphql",
+  schema: "https://twittercloneparvesh.twilightparadox.com/graphql",
+  // schema: "http://localhost:3000/graphql",
   documents: "**/*.{tsx,ts}",
   generates: {
     "gql/": {
