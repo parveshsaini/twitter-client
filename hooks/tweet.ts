@@ -25,8 +25,8 @@ export const useDeleteTweet= ()=>{
 
         onSuccess: ()=> {
             queryClient.invalidateQueries({ queryKey: ['tweets'] })
-            toast.success("Deleted Success", { id: "1" })
-            window.location.reload()
+            toast.success("Deleted Successfully", { id: "1" })
+            // window.location.reload()
         },
     })
 
