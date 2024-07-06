@@ -62,7 +62,7 @@ const Profile = () => {
         }
     }, [user?.id, userInfo]);
 
-    console.log(userInfo)
+    // console.log(userInfo)
 
     return (
         <div>

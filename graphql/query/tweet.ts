@@ -14,9 +14,15 @@ export const getAllTweetsQuery= graphql(`#graphql
                 lastName
                 profileImageUrl
             }
+            likes {
+                user {
+                    id
+                }
+            }
         }
     }
 `) 
+
 
 export const getSignedUrlQuery= graphql(`#graphql
     query GetSignedUrl($imageName: String!, $imageType: String!) {

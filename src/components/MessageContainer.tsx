@@ -9,11 +9,14 @@ import { useCallback } from "react";
 import graphqlClient from "../../services/api";
 import { verifyGoogleTokenQuery } from "../../graphql/query/user";
 import toast from "react-hot-toast";
+import { useChatScroll } from "../../hooks/chat";
 // import Messages from "./Messages";
 
 
 const MessageContainer = () => {
 	const { selectedConversation } = useConversation();
+	const ref = useChatScroll(null) as React.MutableRefObject<HTMLDivElement>;
+
   
 
 
@@ -30,7 +33,7 @@ const MessageContainer = () => {
           </div>
 
           {/* Messages container */}
-          <div className="flex-grow overflow-y-auto">
+          <div className="flex-grow overflow-y-auto" ref={ref}>
             <Messages />
           </div>
 
@@ -52,7 +55,7 @@ const NoChatSelected = () => {
 
   const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
     const googleToken= cred.credential
-    console.log("google token", googleToken)
+    // console.log("google token", googleToken)
     if(!googleToken){
       return toast.error('Failed Google login :/')
     }
@@ -60,7 +63,7 @@ const NoChatSelected = () => {
     const {verifyGoogleToken}= await graphqlClient.request(verifyGoogleTokenQuery, {token: googleToken})
 
     toast.success('Success signin')
-    console.log(verifyGoogleToken)
+    // console.log(verifyGoogleToken)
 
     if(verifyGoogleToken){
       window.localStorage.setItem('token', verifyGoogleToken)

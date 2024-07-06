@@ -40,7 +40,7 @@ export default function Home() {
 
       if(getSignedUrl){
         toast.loading("Uploading...", {id: "2"})
-        console.log(getSignedUrl)
+        // console.log(getSignedUrl)
         await axios.put(getSignedUrl, file, {
           headers: {
             "Content-Type": file.type
@@ -63,7 +63,7 @@ export default function Home() {
 
         const url= new URL(getSignedUrl)
         const filePath= `${url.origin}${url.pathname}`
-        console.log(filePath)
+        // console.log(filePath)
         setImageUrl(filePath)
       }
     }
@@ -103,7 +103,7 @@ export default function Home() {
 
   const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
     const googleToken= cred.credential
-    console.log("google token", googleToken)
+    // console.log("google token", googleToken)
     if(!googleToken){
       return toast.error('Failed Google login :/')
     }
@@ -111,7 +111,7 @@ export default function Home() {
     const {verifyGoogleToken}= await graphqlClient.request(verifyGoogleTokenQuery, {token: googleToken})
 
     toast.success('Success signin')
-    console.log(verifyGoogleToken)
+    // console.log(verifyGoogleToken)
 
     if(verifyGoogleToken){
       window.localStorage.setItem('token', verifyGoogleToken)

@@ -8,6 +8,7 @@ import { ConversationType, useConversation } from "../zustand/useConversation";
 import { useEffect, useRef, useState } from "react";
 import { SendMessageInput } from "../gql/graphql";
 import { sendMessageMutation } from "../graphql/mutation/chat";
+import { GraphQLClient } from "graphql-request";
 
 
 export const useGetConversations = ()=> {
@@ -31,7 +32,12 @@ export const useGetMessages = () => {
       queryKey: ['messages', selectedConversation?.id],
       queryFn: async () => {
         if (!selectedConversation?.id) return [];
-        const data = await graphqlClient.request(getMessagesQuery, { chattingUserId: selectedConversation.id });
+        const gqlClient = new GraphQLClient(import.meta.env.VITE_API_URL as string, {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem('token')}`
+          }
+        });
+        const data= await gqlClient.request(getMessagesQuery, { chattingUserId: selectedConversation.id });
         return data?.getMessages || [];
       },
       enabled: !!selectedConversation, // Only run the query if a conversation is selected

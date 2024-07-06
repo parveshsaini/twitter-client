@@ -57,7 +57,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
   
     const handleGoogleLogin = useCallback( async (cred: CredentialResponse) =>{
       const googleToken= cred.credential
-      console.log("google token", googleToken)
+      // console.log("google token", googleToken)
       if(!googleToken){
         return toast.error('Failed Google login :/')
       }
@@ -65,7 +65,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
       const {verifyGoogleToken}= await graphqlClient.request(verifyGoogleTokenQuery, {token: googleToken})
   
       toast.success('Success signin')
-      console.log(verifyGoogleToken)
+      // console.log(verifyGoogleToken)
   
       if(verifyGoogleToken){
         window.localStorage.setItem('token', verifyGoogleToken)
@@ -85,7 +85,7 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
         <div className="col-span-2 sm:col-span-3 pt-1 flex sm:justify-end pr-4 relative">
           <div>
           <div className="text-2xl flex items-center gap-2 h-fit w-fit rounded-full p-4 cursor-pointer transition-all">
-          <BsTwitter /><span className='hidden md:block'>TwitterX</span>
+          <BsTwitter /><span className='hidden md:block italic'>TwitterX</span>
           </div>
           <div className="mt-1 text-xl pr-4">
             <ul>
