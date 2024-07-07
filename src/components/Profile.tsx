@@ -47,6 +47,8 @@ const Profile = () => {
       queryClient.invalidateQueries({ queryKey: ['user', userInfo.id] })
     }, [userInfo, queryClient])
 
+    const isAdmin= id=== "19dd8498-33e6-44e5-98e9-7b68db817057"
+
 
     useEffect(() => {
         if (userInfo) {
@@ -92,8 +94,10 @@ const Profile = () => {
                   />
                 )}
                 <div className='flex justify-between'>
-                <h1 className="text-2xl font-bold mt-5">{userInfo.firstName} {userInfo.lastName}</h1>
-
+                  <div className='flex items-center gap-x-2'>
+                <h1 className="text-2xl font-bold mt-5">{userInfo.firstName} {userInfo.lastName}  </h1>
+                {isAdmin && <img src="/tick.png" alt="verified"  className='h-7 w-7 mt-5'/> }
+                </div>
                 {
                 user?.id !== userInfo.id && 
                 (!iAmFollowing? (<button 

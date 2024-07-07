@@ -64,11 +64,13 @@ const TwitterLayout: React.FC<TwitterLayoutProps> = (props: TwitterLayoutProps) 
   
       const {verifyGoogleToken}= await graphqlClient.request(verifyGoogleTokenQuery, {token: googleToken})
   
-      toast.success('Success signin')
       // console.log(verifyGoogleToken)
   
       if(verifyGoogleToken){
         window.localStorage.setItem('token', verifyGoogleToken)
+        toast.success('Success signin')
+        window.location.reload()
+
       }
   
       await queryClient.invalidateQueries({ queryKey: ['current-user'] })

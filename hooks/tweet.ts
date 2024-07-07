@@ -50,7 +50,7 @@ export const useCreateTweet= ()=> {
             toast.success("Created Success", { id: "1" })
         },
 
-        onError: ()=> toast.error("Please wait before trying again", { id: "1" })
+        onError: ()=> toast.error("Please wait 10 secs trying again", { id: "1" })
 
     })
 

@@ -3,7 +3,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { Tweet } from "../../gql/graphql";
 import { Link, useNavigate } from "react-router-dom";
 import { useDeleteTweet, useLikeTweet, useUnlikeTweet } from "../../hooks/tweet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCurrentUser } from "../../hooks/user";
 import toast from "react-hot-toast";
 
@@ -24,7 +24,13 @@ const FeedCard = (props: FeedCardProps) => {
   const [likesCount, setLikesCount]= useState(data.likes?.length || 0)
   const [isLiked, setIsLiked]= useState(data.likes?.some(like=> like?.user?.id=== user.user?.id) || false)
 
-  
+  useEffect(()=>{
+    if(user){
+      setIsLiked(data.likes?.some(like=> like?.user?.id=== user.user?.id) || false)
+    }
+  }, [user])
+
+  const isAdmin= data.author?.id === "19dd8498-33e6-44e5-98e9-7b68db817057"
 
   const navigate = useNavigate()
 
@@ -80,8 +86,18 @@ const FeedCard = (props: FeedCardProps) => {
         </div>)}
         <div className="col-span-10">
         <Link to={`/${data.author!.id}`}>
+        <div className='flex items-center gap-x-2 mb-2'>
           <h5 className="cursor-pointer">{data.author?.firstName} {data.author?.lastName}</h5>
+          {isAdmin && <img src="/tick.png" alt="verified"  className='h-5 w-5 '/> }
+          </div>
         </Link>
+
+
+        {/* 
+                <h1 className="text-2xl font-bold mt-5">{userInfo.firstName} {userInfo.lastName}  </h1>
+                
+                </div> */}
+
           <p>
             {data.content}
           </p>
