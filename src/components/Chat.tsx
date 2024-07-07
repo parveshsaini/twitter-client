@@ -14,7 +14,7 @@ const Chat = () => {
         <h1 className="text-3xl font-bold">Messages</h1>
       </div>
 
-      <div className="mt-7 flex gap-5 h-[700px] lg:h-[420px]">
+      <div className="mt-7 flex gap-5 h-[600px] lg:h-[420px]">
         {" "}
         {/* Adjust height based on header size */}
         <ChatSidebar />

@@ -10,6 +10,7 @@ import graphqlClient from "../../services/api";
 import { verifyGoogleTokenQuery } from "../../graphql/query/user";
 import toast from "react-hot-toast";
 import { useChatScroll } from "../../hooks/chat";
+import { useSocketContext } from "../context/socket";
 // import Messages from "./Messages";
 
 
@@ -17,8 +18,9 @@ const MessageContainer = () => {
 	const { selectedConversation } = useConversation();
 	const ref = useChatScroll(null) as React.MutableRefObject<HTMLDivElement>;
 
-  
+  const { onlineUsers } = useSocketContext();
 
+	const isOnline = onlineUsers.includes(selectedConversation? selectedConversation.id : "");
 
 	return (
 		<div className='w-full flex flex-col h-full bg-slate-900'>
@@ -30,6 +32,7 @@ const MessageContainer = () => {
           <div className='bg-slate-700 px-4 py-2'>
             <span className='label-text'>To:</span>{" "}
             <span className='text-white font-bold'>{selectedConversation.firstName}</span>
+            {isOnline ? <h1 className='text-green-500'>ONLINE</h1> : <h1 className='text-slate-500'>OFFLINE</h1>}
           </div>
 
           {/* Messages container */}
