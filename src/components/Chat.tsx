@@ -6,7 +6,7 @@ import MessageContainer from "./MessageContainer";
 const Chat = () => {
   const user = useCurrentUser();
   return (
-    <div className="m-3 px-3 lg:mx-28 pt-6 max-h-screen overflow-hidden">
+    <div className="m-3 px-3 lg:mx-28 pt-6 max-h-screen ">
       <div className="flex gap-x-4 items-center">
         <Link to={"/"}>
           <button className="p-3 border rounded-xl">Back</button>
@@ -14,7 +14,7 @@ const Chat = () => {
         <h1 className="text-3xl font-bold">Messages</h1>
       </div>
 
-      <div className="mt-7 flex gap-5 h-[600px] lg:h-[420px]">
+      <div className="mt-7 flex gap-5 h-[600px] md:h-[500px] lg:h-[420px]">
         {" "}
         {/* Adjust height based on header size */}
         <ChatSidebar />

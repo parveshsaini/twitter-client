@@ -30,7 +30,7 @@ const Message = ({ message }: { message: MessageType }) => {
 
       <div className="flex flex-col ">
         <p
-          className={` text-white ${shakeClass} ${bubbleBg} w-fit px-2 rounded-lg text-sm md:text-lg`}
+          className={` text-white ${shakeClass} ${bubbleBg} w-fit px-2 rounded-lg text-md md:text-lg`}
         >
           {message?.body}
         </p>
