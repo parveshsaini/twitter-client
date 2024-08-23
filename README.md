@@ -1,9 +1,10 @@
 > Welcome to the FRONTEND repository for my Twitter project! <br/>
 > You can find the BACKEND repository [here](https://github.com/parveshsaini/twitter-backend).
+> And the server logs [here](https://grafana-parvesh.mooo.com/public-dashboards/fbefb030b7614962994c9b49551c4fdc?orgId=1)
 
 ## Introduction
 
-Welcome to the backend repository for my Twitter project. This repository encompasses two primary services:
+This project encompasses two primary services:
 
 1. **Messaging Service:** This service manages real-time communication between users, facilitating instant messaging with a scalable, efficient architecture.
 
