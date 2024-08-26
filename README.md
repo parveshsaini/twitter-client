@@ -1,6 +1,7 @@
 > Welcome to the FRONTEND repository for my Twitter project! <br/>
-> You can find the BACKEND repository [here](https://github.com/parveshsaini/twitter-backend).
-> And the server logs [here](https://grafana-parvesh.mooo.com/public-dashboards/fbefb030b7614962994c9b49551c4fdc?orgId=1)
+> You can find the BACKEND repository [here](https://github.com/parveshsaini/twitter-backend).<br/>
+> And the server metrics dashboard [here](https://grafana-parvesh.mooo.com/public-dashboards/fbefb030b7614962994c9b49551c4fdc?orgId=1)
+
 
 ## Introduction
 
