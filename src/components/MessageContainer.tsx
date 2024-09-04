@@ -69,8 +69,11 @@ const NoChatSelected = () => {
     // console.log(verifyGoogleToken)
 
     if(verifyGoogleToken){
-      window.localStorage.setItem('token', verifyGoogleToken)
-    }
+        window.localStorage.setItem('token', verifyGoogleToken)
+        toast.success('Success signin')
+        window.location.reload()
+
+      }
 
     await queryClient.invalidateQueries({ queryKey: ['current-user'] })
     // setUserLoaded(true)

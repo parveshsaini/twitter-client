@@ -102,6 +102,9 @@ export default function Home() {
 
     if(verifyGoogleToken){
       window.localStorage.setItem('token', verifyGoogleToken)
+      toast.success('Success signin')
+      window.location.reload()
+
     }
 
     await queryClient.invalidateQueries({ queryKey: ['current-user'] })
